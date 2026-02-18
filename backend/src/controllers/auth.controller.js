@@ -7,7 +7,9 @@ const register = async (req,res)=>{
     try{
         const user =await registerUser(req.body);
         const token =generatetoken(user._id);
-        res.cookie("token", token, { httpOnly: true });
+        res.cookie("token", token, { httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+         });
 
         res.status(201).json({
             message:"registered successfully",
@@ -29,7 +31,9 @@ const login = async (req,res)=>{
     const user = await loginUser(req.body);
     const token = generatetoken(user._id);
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, { httpOnly: true ,
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
     res.json({ message: "Login successful" });
   } catch (error) {
@@ -37,7 +41,21 @@ const login = async (req,res)=>{
   }
 }
 
+const logout =async(req,res)=>{
+    res.cookie("token","",{
+        httpOnly:true,
+         expires: new Date(0),
+    })
+
+     res.status(200).json({
+    message: "Logged out successfully",
+  });
+}
+
+
+
 export{
     register,
-    login
+    login,
+    logout
 }
