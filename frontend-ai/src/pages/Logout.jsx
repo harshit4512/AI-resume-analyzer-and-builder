@@ -1,12 +1,17 @@
-import { logoutUser } from "../api/Auth";
+import { logoutUser } from "../services/auth.service.js";
+import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const Dash = () => {
   const navigate = useNavigate();
+   const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = async () => {
     try {
       await logoutUser();
+
+      logout();
+
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -33,4 +38,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dash;
