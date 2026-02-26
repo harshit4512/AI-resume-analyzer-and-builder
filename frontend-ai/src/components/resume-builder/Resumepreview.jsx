@@ -352,3 +352,7 @@ const ResumePreview = () => {
 };
 
 export default ResumePreview;
+
+
+
+

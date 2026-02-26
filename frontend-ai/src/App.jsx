@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dash from "./pages/Logout";
 import Dashboard from "./pages/Dashboard";
 import Builder from "./pages/Builder";
+
 function App() {
   return (
    
@@ -14,6 +15,7 @@ function App() {
         <Route path="/dash" element={<Dash/>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/builder" element={<Builder />} />
+      
       </Routes>
     
   );
