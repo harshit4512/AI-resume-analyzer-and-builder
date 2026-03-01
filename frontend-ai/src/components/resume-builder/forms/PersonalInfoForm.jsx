@@ -34,7 +34,7 @@ const PersonalInfoForm = () => {
           >
             <option value="modern">Modern</option>
             <option value="minimal">Minimal</option>
-            <option value="classic">Classic</option>
+            <option value="professional">Professional</option>
           </select>
         </div>
       </div>

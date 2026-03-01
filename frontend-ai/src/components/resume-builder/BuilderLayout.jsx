@@ -1,6 +1,6 @@
 // components/BuilderLayout.jsx
 import SectionTabs from "./SectionTabs";
-import ResumePreview from "./ResumePreview";
+import ResumePreview from "./Resumepreview";
 import { useResumeStore } from "../../store/resumeStore";
 import { createResume, updateResume } from "../../services/resume.service.js";
 
@@ -88,7 +88,8 @@ const BuilderLayout = () => {
       const response = await createResume(payload);
 
       // Store the returned _id so Update button works immediately after saving
-      useResumeStore.setState({ _id: response.resume._id });
+      // useResumeStore.setState({ _id: response.resume._id });
+      useResumeStore.setState({ _id: response.data.resume._id });
 
       alert("Resume saved successfully ✅");
     } catch (error) {
