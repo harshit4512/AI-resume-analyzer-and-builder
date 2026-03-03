@@ -1,5 +1,5 @@
 // components/resume-builder/templates/ProfessionalTemplate.jsx
-import { formatDate } from "./templateHelpers";
+import { formatDate } from "./Templatehelpers";
 
 const Section = ({ title, children }) => (
   <section className="mb-5">

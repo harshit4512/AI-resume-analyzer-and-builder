@@ -1,5 +1,5 @@
 // components/resume-builder/templates/ModernTemplate.jsx
-import { formatDate, SkillBadge } from "./templateHelpers";
+import { formatDate, SkillBadge } from "./Templatehelpers";
 
 const ModernTemplate = ({ personalInfo, summary, experience, education, skills, projects, links }) => {
   const hasSkills = Object.values(skills).some((arr) => arr.length > 0);
