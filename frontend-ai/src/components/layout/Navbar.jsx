@@ -1,26 +1,54 @@
 // components/Navbar.jsx
-// Shared responsive navbar for ResumeCraft
-// Usage: import Navbar from "../components/Navbar"
-
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, [location.pathname]);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
+
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const navLinks = [
-    { label: "Home",         href: "#home"      },
-    { label: "Features",     href: "#features"  },
-    { label: "How It Works", href: "#how"       },
-    { label: "Templates",    href: "#templates" },
+    { label: "Home",         href: "/#home"      },
+    { label: "Features",     href: "/#features"  },
+    { label: "How It Works", href: "/#how"       },
+    { label: "Preview",      href: "/#templates" },
+    { label: "Templates",    href: "/templates"  },
   ];
+
+  // ── Key function: handles both same-page scroll AND cross-page scroll ──
+  const handleNavClick = (e, href) => {
+    // If it's a real route like "/templates", do nothing — let Link handle it
+    if (!href.includes("#")) return;
+
+    e.preventDefault();
+    const sectionId = href.split("#")[1]; // gets "home", "features", "how", "templates"
+
+    if (location.pathname === "/") {
+      // Already on landing page — just smooth scroll to section
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // On a different page — navigate to "/" first, then scroll
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      }, 100); // 100ms wait for landing page to render
+    }
+
+    setMenuOpen(false);
+  };
 
   return (
     <>
@@ -43,15 +71,26 @@ const Navbar = () => {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-                className="text-gray-600 hover:text-green-600 text-sm font-medium transition-colors"
-              >
-                {l.label}
-              </a>
-            ))}
+            {navLinks.map((l) =>
+              l.href.includes("#") ? (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  onClick={(e) => handleNavClick(e, l.href)}
+                  className="text-gray-600 hover:text-green-600 text-sm font-medium transition-colors cursor-pointer"
+                >
+                  {l.label}
+                </a>
+              ) : (
+                <Link
+                  key={l.label}
+                  to={l.href}
+                  className="text-gray-600 hover:text-green-600 text-sm font-medium transition-colors"
+                >
+                  {l.label}
+                </Link>
+              )
+            )}
           </div>
 
           {/* Desktop CTA buttons */}
@@ -112,18 +151,29 @@ const Navbar = () => {
               </span>
             </Link>
 
-            {/* Nav links */}
+            {/* Mobile nav links */}
             <div className="flex flex-col gap-1 flex-1">
-              {navLinks.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="px-4 py-3 rounded-xl text-gray-700 hover:bg-green-50 hover:text-green-600 font-medium transition-colors"
-                >
-                  {l.label}
-                </a>
-              ))}
+              {navLinks.map((l) =>
+                l.href.includes("#") ? (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    onClick={(e) => handleNavClick(e, l.href)}
+                    className="px-4 py-3 rounded-xl text-gray-700 hover:bg-green-50 hover:text-green-600 font-medium transition-colors cursor-pointer"
+                  >
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={l.label}
+                    to={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="px-4 py-3 rounded-xl text-gray-700 hover:bg-green-50 hover:text-green-600 font-medium transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                )
+              )}
             </div>
 
             {/* CTA buttons */}
@@ -147,7 +197,6 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* ── Animation styles ── */}
       <style>{`
         @keyframes slide-in {
           from { transform: translateX(100%); opacity: 0; }
