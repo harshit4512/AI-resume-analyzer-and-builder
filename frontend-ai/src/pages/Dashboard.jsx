@@ -472,7 +472,7 @@ const Dashboard = () => {
             {[
               { key: "modern", label: "Modern", tag: "Most Popular", tagColor: "bg-blue-100 text-blue-700", desc: "Bold sidebar, skill chips, clean layout", img: "https://i.pinimg.com/1200x/a9/5c/67/a95c67b6235b1a0af378281136e1ddef.jpg" },
               { key: "minimal", label: "Minimal", tag: "Elegant", tagColor: "bg-green-100 text-green-700", desc: "Clean structure, ATS-friendly, professional", img: "https://i.pinimg.com/1200x/7e/aa/d1/7eaad1691e3897a5a36640466909cc74.jpg" },
-              { key: "classic", label: "Classic", tag: "ATS Ready", tagColor: "bg-gray-100 text-gray-600", desc: "Minimal two-column, elegant whitespace", img: "https://i.pinimg.com/1200x/fe/7f/f7/fe7ff76cc77473a976ecc25a3523f76a.jpg" },
+              { key: "professional", label: "Professional", tag: "ATS Ready", tagColor: "bg-gray-100 text-gray-600", desc: "Minimal two-column, elegant whitespace", img: "https://i.pinimg.com/1200x/fe/7f/f7/fe7ff76cc77473a976ecc25a3523f76a.jpg" },
             ].map((t) => (
               <button
                 key={t.key}

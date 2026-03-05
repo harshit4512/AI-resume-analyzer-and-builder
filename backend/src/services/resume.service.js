@@ -44,11 +44,11 @@ const deleteResumeService = async (resumeId, userId) => {
 
 
 export {
-   createResumeService,
-   getUserResumeService,
-   getSingleResumeService,
-   updateResumeService,
-   deleteResumeService
+  createResumeService,
+  getUserResumeService,
+  getSingleResumeService,
+  updateResumeService,
+  deleteResumeService
 }
 
 

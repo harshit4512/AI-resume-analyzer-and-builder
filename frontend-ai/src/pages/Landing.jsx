@@ -57,7 +57,7 @@ const TemplateCard = ({ name, color, accent }) => (
 // ── Main Landing Page ─────────────────────────────────────────────────────────
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-white font-sans">
+  <div className="min-h-screen bg-white dark:bg-gray-900 font-sans">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap');
 

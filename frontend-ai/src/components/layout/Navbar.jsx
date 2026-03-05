@@ -1,8 +1,10 @@
 // components/Navbar.jsx
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import useTheme from "../../hooks/useTheme";
 const Navbar = () => {
+
+  const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -10,8 +12,8 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-  window.scrollTo(0, 0);
-}, [location.pathname]);
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -21,11 +23,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: "Home",         href: "/#home"      },
-    { label: "Features",     href: "/#features"  },
-    { label: "How It Works", href: "/#how"       },
-    { label: "Preview",      href: "/#templates" },
-    { label: "Templates",    href: "/templates"  },
+    { label: "Home", href: "/#home" },
+    { label: "Features", href: "/#features" },
+    { label: "How It Works", href: "/#how" },
+    { label: "Preview", href: "/#templates" },
+    { label: "Templates", href: "/templates" },
   ];
 
   // ── Key function: handles both same-page scroll AND cross-page scroll ──
@@ -52,11 +54,10 @@ const Navbar = () => {
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-white shadow-md" : "bg-transparent"
-        }`}
-      >
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
+  bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800
+  ${scrolled ? "shadow-md" : ""}`}
+>
         <div className="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
 
           {/* Logo */}
@@ -94,7 +95,12 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA buttons */}
+         
+
           <div className="hidden md:flex items-center gap-3">
+
+        
+
             <Link
               to="/login"
               className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors"
