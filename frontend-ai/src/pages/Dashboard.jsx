@@ -212,6 +212,12 @@ const Dashboard = () => {
 
           {/* Desktop right side */}
           <div className="  hidden sm:flex items-center gap-3">
+            <Link
+              to="/resume-analyzer"
+              className="flex items-center gap-1.5 px-4 py-2 bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 text-sm font-bold rounded-xl transition-all"
+            >
+              ✦ AI Analyzer
+            </Link>
             <button
               onClick={handleCreateNew}
               className="flex items-center gap-1.5 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-bold rounded-xl transition-all shadow-sm hover:-translate-y-0.5"
@@ -289,6 +295,8 @@ const Dashboard = () => {
 
             {/* Mobile profile dropdown */}
             <div className="relative" ref={mobileRef}>
+
+
               <button
                 onClick={() => setMobileMenu(!mobileMenu)}
                 className="w-9 h-9 bg-green-500 rounded-xl flex items-center justify-center"
@@ -306,6 +314,26 @@ const Dashboard = () => {
                     <span className="text-xs text-gray-400">Resumes</span>
                     <span className="text-sm font-bold text-green-600">{resumes.length}</span>
                   </div>
+
+                  <Link
+                    to="/resume-analyzer"
+                    onClick={() => setMobileMenu(false)}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-green-600 hover:bg-green-50 text-sm font-semibold border-b border-gray-100"
+                  >
+                    ✦ AI Analyzer
+                  </Link>
+
+                  
+                  <Link
+                    to="/"
+                    onClick={() => setMobileMenu(false)}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 text-sm font-semibold border-b border-gray-100"
+                  >
+                    🏠 Go to Home
+                  </Link>
+
+
+
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 text-sm font-semibold"

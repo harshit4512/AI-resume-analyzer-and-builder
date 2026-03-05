@@ -28,6 +28,7 @@ const Navbar = () => {
     { label: "How It Works", href: "/#how" },
     { label: "Preview", href: "/#templates" },
     { label: "Templates", href: "/templates" },
+    {label:"AI Analyzer", href:"/resume-analyzer"}
   ];
 
   // ── Key function: handles both same-page scroll AND cross-page scroll ──
@@ -98,9 +99,6 @@ const Navbar = () => {
          
 
           <div className="hidden md:flex items-center gap-3">
-
-        
-
             <Link
               to="/login"
               className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors"

@@ -22,7 +22,7 @@ const deleteResume = (id) => {
 
 const downloadResumePDF = (id) => {
   return API.get(`/resume/${id}/pdf`, {
-    responseType: "blob",
+    responseType: "arraybuffer",
   });
 };
 

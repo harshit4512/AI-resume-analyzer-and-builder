@@ -3,7 +3,7 @@ import { useState } from "react";
 import SectionTabs from "./SectionTabs";
 import ResumePreview from "./Resumepreview";
 import { useResumeStore } from "../../store/resumeStore";
-import { createResume, updateResume } from "../../services/resume.service.js";
+import { createResume, updateResume,downloadResumePDF } from "../../services/resume.service.js";
 
 const BuilderLayout = () => {
   const template = useResumeStore((s) => s.template);
@@ -110,29 +110,50 @@ const BuilderLayout = () => {
   // ── Download as PDF ───────────────────────────────────────────────────────
   // Only enabled after the resume has been saved (resumeId exists).
   // Uses the browser's built-in print dialog targeting only the preview panel.
-  const handleDownload = () => {
-    if (!resumeId) return; // button is disabled anyway, just a guard
+  // const handleDownload = () => {
+  //   if (!resumeId) return; // button is disabled anyway, just a guard
 
-    // Give the preview panel a known id so the print stylesheet targets it
-    const previewEl = document.getElementById("resume-print-area");
-    if (!previewEl) return;
+  //   // Give the preview panel a known id so the print stylesheet targets it
+  //   const previewEl = document.getElementById("resume-print-area");
+  //   if (!previewEl) return;
 
-    // Inject a temporary <style> that hides everything except the preview
-    const style = document.createElement("style");
-    style.id = "__resume-print-style__";
-    style.innerHTML = `
-      @media print {
-        body > * { display: none !important; }
-        #resume-print-area,
-        #resume-print-area * { display: revert !important; }
-        #resume-print-area { position: fixed; inset: 0; transform: none !important; }
-      }
-    `;
-    document.head.appendChild(style);
-    window.print();
-    // Clean up after print dialog closes
-    document.head.removeChild(style);
-  };
+  //   // Inject a temporary <style> that hides everything except the preview
+  //   const style = document.createElement("style");
+  //   style.id = "__resume-print-style__";
+  //   style.innerHTML = `
+  //     @media print {
+  //       body > * { display: none !important; }
+  //       #resume-print-area,
+  //       #resume-print-area * { display: revert !important; }
+  //       #resume-print-area { position: fixed; inset: 0; transform: none !important; }
+  //     }
+  //   `;
+  //   document.head.appendChild(style);
+  //   window.print();
+  //   // Clean up after print dialog closes
+  //   document.head.removeChild(style);
+  // };
+
+  // ── Download as PDF ───────────────────────────────────────────────────────
+const handleDownload = async () => {
+  if (!resumeId) return;
+  try {
+    const response = await downloadResumePDF(resumeId);
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    const title = useResumeStore.getState().title || "resume";
+    link.setAttribute("download", `${title}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error(err);
+    alert("Download failed ❌");
+  }
+};
 
   // ── Derived button label ──────────────────────────────────────────────────
   const saveLabel = isSaving
