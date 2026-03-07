@@ -9,20 +9,42 @@ import ResumeAnalyzer from "./pages/Resumeanalyzer";
 import AnalysisResult from "./pages/Analysisresult";
 import useTheme from "./hooks/useTheme";
 
+import ProtectedRoute from "./components/layout/ProtectedRoute";
+
 function App() {
   const { theme, toggleTheme } = useTheme();
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
       <Routes>
         <Route path="/landing" element={<Landing />} />
+
         <Route path="/" element={<Navigate to="/landing" />} />
+
         <Route path="/login" element={<Login />} />
+
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+
         <Route path="/builder" element={<Builder />} />
+
         <Route path="/templates" element={<TemplatesPage />} />
-        <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
-        <Route path="/analysis-result" element={<AnalysisResult />} />
+
+        <Route path="/resume-analyzer" element={
+           <ProtectedRoute>
+            <ResumeAnalyzer />
+           </ProtectedRoute>
+        } />
+
+        <Route path="/analysis-result" element={
+          <ProtectedRoute>
+            <AnalysisResult />
+          </ProtectedRoute>
+        } />
       </Routes>
     </div>
   );
