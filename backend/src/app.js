@@ -3,11 +3,11 @@ import cors from "cors"
 import cookieparser from "cookie-parser"
 import authroutes from "./routes/auth.routes.js"
 import resumeRoutes from "./routes/resume.routes.js"
-
+import passport from "passport"
 import aiRoutes from "./routes/ai.routes.js"
 const app = express();
 
-
+app.use(passport.initialize());
 app.use(express.json())
 app.use(cors({
      origin:[ "http://localhost:5173",

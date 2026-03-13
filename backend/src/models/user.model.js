@@ -13,10 +13,15 @@ const userschema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true,
-        unique:true
-    }
-})
+        default:null
+    },
+    googleId:{
+        type:String,
+        default:null
+    },
+},{
+    timestamps:true
+});
 
 userschema.pre("save",async function(){
     if(!this.isModified("password")) return next();

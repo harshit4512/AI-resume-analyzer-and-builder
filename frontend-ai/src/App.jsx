@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -7,12 +7,12 @@ import Landing from "./pages/Landing";
 import TemplatesPage from "./pages/TemplatesPage";
 import ResumeAnalyzer from "./pages/Resumeanalyzer";
 import AnalysisResult from "./pages/Analysisresult";
-import useTheme from "./hooks/useTheme";
+
 
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 function App() {
-  const { theme, toggleTheme } = useTheme();
+ 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
       <Routes>

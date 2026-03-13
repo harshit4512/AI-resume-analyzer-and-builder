@@ -6,6 +6,11 @@ import { Link, useNavigate } from "react-router-dom"
 import { useResumeStore } from "../store/resumeStore.js"
 import { useAuthStore } from "../store/authStore.js"
 import Navbar from "../components/layout/Navbar.jsx"
+import { getMe } from "../services/auth.service.js"
+
+
+
+
 // ── Template preview colors ───────────────────────────────────────────────────
 const TEMPLATE_STYLES = {
   modern: { bg: "bg-blue-600", badge: "bg-blue-100 text-blue-700" },
@@ -60,6 +65,25 @@ const Dashboard = () => {
 
   const profileRef = useRef(null)
   const mobileRef = useRef(null)
+
+  // ✅ add this — syncs auth state after Google OAuth redirect
+  useEffect(() => {
+    const syncAuth = async () => {
+      try {
+        const res = await getMe()
+        useAuthStore.setState({
+          user: res.data.user,
+          isAuthenticated: true,
+        })
+      } catch {
+        // not logged in
+      }
+    }
+    syncAuth()
+  }, [])
+
+  
+
 
   // Close dropdowns on outside click
   useEffect(() => {

@@ -25,6 +25,10 @@ const Login = () => {
   const [showPassword, setShowPwd] = useState(false);
   const [form, setForm]            = useState({ email: "", password: "" });
   const [loading, setLoading]      = useState(false);
+  
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -140,6 +144,22 @@ const Login = () => {
               ) : "Sign In →"}
             </button>
           </form>
+
+           {/* ✅ add this divider + google button */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-100" />
+            <span className="text-xs text-gray-400 font-medium">or</span>
+            <div className="flex-1 h-px bg-gray-100" />
+          </div>
+
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+          >
+            <img src="https://www.google.com/favicon.ico" className="w-4 h-4" />
+            <span className="text-sm font-semibold text-gray-700">Continue with Google</span>
+          </button>
+
 
           <p className="text-sm text-gray-400 mt-6 text-center">
             Don't have an account?{" "}

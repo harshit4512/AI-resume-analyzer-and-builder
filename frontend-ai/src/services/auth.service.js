@@ -12,8 +12,13 @@ const logoutUser=()=>{
     API.post("/auth/logout")
 }
 
+const getMe = () => {
+    API.get("/auth/me");
+}
+
 export {
     registerUser,
     loginUser,
     logoutUser,
+    getMe
 }
