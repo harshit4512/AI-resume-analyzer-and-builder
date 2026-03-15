@@ -9,11 +9,11 @@ const  loginUser = data =>{
 }
 
 const logoutUser=()=>{
-    API.post("/auth/logout")
+    return API.post("/auth/logout")
 }
 
 const getMe = () => {
-    API.get("/auth/me");
+  return  API.get("/auth/me");
 }
 
 export {

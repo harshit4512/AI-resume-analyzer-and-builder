@@ -24,7 +24,7 @@ const Register = () => {
   const [loading, setLoading]      = useState(false);
 
  const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/auth/google`;
   };
 
   const handleSubmit = async (e) => {

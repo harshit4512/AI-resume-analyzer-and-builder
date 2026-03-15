@@ -23,12 +23,11 @@ const userschema = new mongoose.Schema({
     timestamps:true
 });
 
-userschema.pre("save",async function(){
-    if(!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password,10)
-    
+userschema.pre("save", async function() {
+    // skip if password not modified or is null (Google users)
+    if (!this.isModified("password") || !this.password) return;
+    this.password = await bcrypt.hash(this.password, 10);
 });
-
 
 
 const User = mongoose.model("User",userschema)
