@@ -15,23 +15,48 @@
 
 
 import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { getMe } from "../../services/auth.service";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [checking, setChecking] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const verify = async () => {
+      // ✅ check for token in URL first (Google OAuth redirect)
+      const tokenFromUrl = searchParams.get("token");
+
+      if (tokenFromUrl) {
+        // save token to store immediately
+        useAuthStore.setState({
+          token: tokenFromUrl,
+          isAuthenticated: true,
+        });
+        // clean URL
+        setSearchParams({});
+        // fetch user info
+        try {
+          const res = await getMe();
+          useAuthStore.setState({
+            user: res.data.user,
+            isAuthenticated: true,
+          });
+        } catch {}
+        setChecking(false);
+        return;
+      }
+
+      // normal auth check
       if (isAuthenticated) {
         setChecking(false);
         return;
       }
+
       try {
         const res = await getMe();
-         console.log("getMe response:", res.data);
         useAuthStore.setState({
           user: res.data.user,
           isAuthenticated: true,

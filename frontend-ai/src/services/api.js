@@ -16,18 +16,17 @@ const API = axios.create({
   withCredentials: true,
 });
 
-// ✅ attach token from localStorage if available (for mobile)
 API.interceptors.request.use((config) => {
-  const authStorage = localStorage.getItem("auth-storage");
-  if (authStorage) {
-    try {
+  try {
+    const authStorage = localStorage.getItem("auth-storage");
+    if (authStorage) {
       const parsed = JSON.parse(authStorage);
       const token = parsed?.state?.token;
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
-    } catch {}
-  }
+    }
+  } catch {}
   return config;
 });
 
