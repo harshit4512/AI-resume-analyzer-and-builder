@@ -1,17 +1,17 @@
 // pages/Dashboard.jsx
 import { useEffect, useState, useRef } from "react"
 import { getResumes, downloadResumePDF, deleteResume } from "../services/resume.service"
-import { logoutUser } from "../services/auth.service.js"
-import { Link, useNavigate } from "react-router-dom"
+import { logoutUser,getMe } from "../services/auth.service.js"
+import { Link, useNavigate,useSearchParams } from "react-router-dom"
 import { useResumeStore } from "../store/resumeStore.js"
 import { useAuthStore } from "../store/authStore.js"
-import Navbar from "../components/layout/Navbar.jsx"
-import { getMe } from "../services/auth.service.js"
+// import Navbar from "../components/layout/Navbar.jsx"
 
 
 
 
-// ── Template preview colors ───────────────────────────────────────────────────
+
+// // ── Template preview colors ───────────────────────────────────────────────────
 const TEMPLATE_STYLES = {
   modern: { bg: "bg-blue-600", badge: "bg-blue-100 text-blue-700" },
   minimal: { bg: "bg-gray-800", badge: "bg-gray-100 text-gray-700" },
@@ -51,8 +51,40 @@ const Spinner = ({ className = "w-3 h-3" }) => (
 )
 
 // ── Dashboard ─────────────────────────────────────────────────────────────────
-const Dashboard = () => {
+// const Dashboard = () => {
+//   const navigate = useNavigate()
+//   const logout = useAuthStore((s) => s.logout)
+//   const user = useAuthStore((s) => s.user)
+
+//   const [resumes, setResumes] = useState([])
+//   const [loading, setLoading] = useState(true)
+//   const [deleting, setDeleting] = useState(null)
+//   const [downloading, setDownloading] = useState(null)
+//   const [profileOpen, setProfileOpen] = useState(false)
+//   const [mobileMenu, setMobileMenu] = useState(false)
+
+//   const profileRef = useRef(null)
+//   const mobileRef = useRef(null)
+
+//   // ✅ add this — syncs auth state after Google OAuth redirect
+//   useEffect(() => {
+//     const syncAuth = async () => {
+//       try {
+//         const res = await getMe()
+//         useAuthStore.setState({
+//           user: res.data.user,
+//           isAuthenticated: true,
+//         })
+//       } catch {
+//         // not logged in
+//       }
+//     }
+//     syncAuth()
+//   }, [])
+
+  const Dashboard = () => {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams() // ✅ add this
   const logout = useAuthStore((s) => s.logout)
   const user = useAuthStore((s) => s.user)
 
@@ -66,23 +98,42 @@ const Dashboard = () => {
   const profileRef = useRef(null)
   const mobileRef = useRef(null)
 
-  // ✅ add this — syncs auth state after Google OAuth redirect
+  // ✅ handle Google OAuth token from URL
   useEffect(() => {
-    const syncAuth = async () => {
-      try {
-        const res = await getMe()
+    const tokenFromUrl = searchParams.get("token");
+
+    if (tokenFromUrl) {
+      // store token in authStore
+      useAuthStore.setState({
+        token: tokenFromUrl,
+        isAuthenticated: true,
+      });
+      // clean the URL
+      setSearchParams({});
+      // fetch user info
+      getMe().then(res => {
         useAuthStore.setState({
           user: res.data.user,
           isAuthenticated: true,
-        })
+        });
+      }).catch(() => {});
+      return;
+    }
+
+    // normal sync for cookie-based auth
+    const syncAuth = async () => {
+      try {
+        const res = await getMe();
+        useAuthStore.setState({
+          user: res.data.user,
+          isAuthenticated: true,
+        });
       } catch {
         // not logged in
       }
-    }
-    syncAuth()
-  }, [])
-
-  
+    };
+    syncAuth();
+  }, []);
 
 
   // Close dropdowns on outside click
