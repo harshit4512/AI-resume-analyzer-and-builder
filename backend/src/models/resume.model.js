@@ -25,7 +25,7 @@ const resumeSchema = new mongoose.Schema(
     },
 
     personalInfo: {
-      fullName: {
+        fullName: {
         type: String,
         required: true,
       },

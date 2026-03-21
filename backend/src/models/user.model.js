@@ -23,6 +23,7 @@ const userschema = new mongoose.Schema({
     timestamps:true
 });
 
+// save is a or event name in model which tells him to run this before svaing anything 
 userschema.pre("save", async function() {
     // skip if password not modified or is null (Google users)
     if (!this.isModified("password") || !this.password) return;

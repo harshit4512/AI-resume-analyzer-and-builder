@@ -77,16 +77,36 @@ router.get("/google",
 );
 
 // Google OAuth — Step 2: callback
+// router.get("/google/callback",
+//   (req, res, next) => {
+//     passport.authenticate("google", { session: false }, (err, user, info) => {
+//       if (err || !user) {
+//         return res.redirect(`${process.env.CLIENT_URL}/login`);
+//       }
+
+//       const token = generatetoken(user._id);
+
+//       // ✅ pass token in URL instead of cookie — works on all mobile browsers
+//       res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
+//     })(req, res, next);
+//   }
+// );
+
+
 router.get("/google/callback",
   (req, res, next) => {
     passport.authenticate("google", { session: false }, (err, user, info) => {
+      console.log("=== GOOGLE CALLBACK ===");
+      console.log("err:", err?.message);
+      console.log("user:", user?.email);
+      console.log("info:", info);
+
       if (err || !user) {
+        console.log("Redirecting to login — err or no user");
         return res.redirect(`${process.env.CLIENT_URL}/login`);
       }
 
       const token = generatetoken(user._id);
-
-      // ✅ pass token in URL instead of cookie — works on all mobile browsers
       res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
     })(req, res, next);
   }
