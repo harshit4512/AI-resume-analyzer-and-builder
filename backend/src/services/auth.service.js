@@ -131,9 +131,13 @@ export const refreshTokenService = async (token) => {
 export const googleCallbackService = async (user) => {
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
+     if (!user.username) {
+        user.username = user.email.split("@")[0];
+    }
 
     user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
+     await user.save();
+    // await user.save({ validateBeforeSave: false });
 
     return { accessToken, refreshToken };
 };

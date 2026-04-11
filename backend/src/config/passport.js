@@ -18,6 +18,8 @@ passport.use(
         const email = profile.emails?.[0]?.value;
         const username = profile.displayName;
 
+        console.log(email);
+        
         if (!email) {
           return done(new Error("Google account has no email"), null);
         }

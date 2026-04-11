@@ -135,7 +135,9 @@ const login = async (req, res) => {
         const { error } = loginSchema.validate(req.body, {
             abortEarly: false,
         });
-
+        
+        console.log(req.body);
+        
         if (error) {
             return res.status(400).json({
                 success: false,
@@ -240,7 +242,8 @@ const googleAuth = passport.authenticate("google", {
 const googleAuthCallback = async (req, res) => {
     try {
         const user = req.user;
-
+         console.log(user);
+         
         if (!user) {
             return res.redirect(
                 `${process.env.CLIENT_URL}/login?error=google_auth_failed`
@@ -252,11 +255,12 @@ const googleAuthCallback = async (req, res) => {
 
         // ✅ set cookies (IMPORTANT - keep this)
         setTokenCookies(res, accessToken, refreshToken);
-
         // 🔥 redirect to dashboard (NO token in URL)
         return res.redirect(`${process.env.CLIENT_URL}/dashboard`);
 
     } catch (error) {
+        console.log(error);
+        
         return res.redirect(
             `${process.env.CLIENT_URL}/login?error=server_error`
         );
