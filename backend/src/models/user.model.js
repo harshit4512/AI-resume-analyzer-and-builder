@@ -17,7 +17,21 @@ const userschema = new mongoose.Schema({
     },
     googleId:{
         type:String,
-        default:null
+        unique:true,
+        sparse:true
+    },
+    authProvider:{
+        type:[String],
+        enum:["local","google"],
+        default:"local"
+
+       // local = email/password
+      // google = google oauth
+    },
+    
+     refreshToken: {
+      type: String,
+      select: false,
     },
 },{
     timestamps:true
@@ -30,6 +44,23 @@ userschema.pre("save", async function() {
     this.password = await bcrypt.hash(this.password, 10);
 });
 
+userschema.methods.comparePassword=async function(enteredPassword){
+    return await bcrypt.compare(enteredPassword,this.password)
+};
+
+// ================================
+// METHOD — remove sensitive fields
+// before sending user to frontend
+// usage: user.toSafeObject()
+// ================================
+
+userschema.methods.toSafeObject = function () {
+  const user = this.toObject();
+  delete user.password;
+  delete user.refreshToken;
+  delete user.__v;
+  return user;
+};
 
 const User = mongoose.model("User",userschema)
 
