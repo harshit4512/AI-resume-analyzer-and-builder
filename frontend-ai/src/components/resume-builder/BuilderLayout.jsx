@@ -2,6 +2,7 @@
 import { useState } from "react";
 import SectionTabs from "./SectionTabs";
 import ResumePreview from "./Resumepreview";
+import { Bookmark,Pen,Update,Save} from "lucide-react";
 import { useResumeStore } from "../../store/resumeStore";
 import { createResume, updateResume,downloadResumePDF } from "../../services/resume.service.js";
 
@@ -159,8 +160,8 @@ const handleDownload = async () => {
   const saveLabel = isSaving
     ? "Saving…"
     : resumeId
-      ? "✏️ Update"
-      : "💾 Save";
+      ? <Pen size={20} /> :"Update"
+            ? <Bookmark size={20} /> :"Save";
 
   const saveClass = resumeId
     ? "bg-orange-500 hover:bg-orange-600 active:bg-orange-700"

@@ -1,6 +1,7 @@
 // components/resume-builder/SectionTabs.jsx
 import { useState } from "react";
 import { useResumeStore } from "../../store/resumeStore.js";
+import {SquarePen,User,Wrench,GraduationCap,BriefcaseBusiness,Rocket} from "lucide-react"
 import PersonalInfoForm from "./forms/PersonalInfoForm.jsx";
 import SummaryForm      from "./forms/SummaryForm.jsx";
 import SkillsForm       from "./forms/SkillsForm.jsx";
@@ -9,12 +10,12 @@ import ExperienceForm   from "./forms/ExperienceForm.jsx";
 import ProjectsForm     from "./forms/ProjectsForm.jsx";
 
 const TABS = [
-  { id: "personal",   label: "Personal",   icon: "👤" },
-  { id: "summary",    label: "Summary",    icon: "📝" },
-  { id: "skills",     label: "Skills",     icon: "🛠"  },
-  { id: "education",  label: "Education",  icon: "🎓" },
-  { id: "experience", label: "Experience", icon: "💼" },
-  { id: "projects",   label: "Projects",   icon: "🚀" },
+  { id: "personal",   label: "Personal",   icon: <User size={20} />},
+  { id: "summary",    label: "Summary",    icon: <SquarePen size={20} />},
+  { id: "skills",     label: "Skills",     icon: <Wrench size={20} /> },
+  { id: "education",  label: "Education",  icon:<GraduationCap size={20} /> },
+  { id: "experience", label: "Experience", icon: <BriefcaseBusiness size={20} /> },
+  { id: "projects",   label: "Projects",   icon: <Rocket size={20} />},
 ];
 
 const FORM_MAP = {
