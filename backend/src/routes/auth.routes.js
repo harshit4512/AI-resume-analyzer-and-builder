@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "../config/passport.js";
-import { register, login, logout, getMe,googleAuth,googleAuthCallback } from "../controllers/auth.controller.js";
+import { register, login, logout, getMe,googleAuth,googleAuthCallback,refreshToken} from "../controllers/auth.controller.js";
 import protect from "../middlewares/auth.middleware.js";
 import { generateAccessToken,
     generateRefreshToken,
@@ -12,6 +12,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
+router.post("/refresh", refreshToken);  
 router.get("/me", protect, getMe);
 
 // Google OAuth — Step 1: redirect to Google

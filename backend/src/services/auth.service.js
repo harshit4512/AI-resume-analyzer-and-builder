@@ -1,45 +1,16 @@
-// import { Error} from "mongoose";
-// import User from "../models/user.model.js";
-// import bcrypt from "bcrypt"
+// Purpose of this file
 
-// const registerUser =async ({username,email,password}) =>{
+// This file contains the business logic related to authentication.
 
-//     if(!password){
-//         throw new Error("password is required");
-//     }
-//     const userexists = await User.findOne({email});
+// Its responsibilities are:
 
-//     if(userexists) throw new Error("User already exists")
+// Register a user
+// Login a user
+// Logout a user
+// Refresh JWT tokens
+// Handle Google OAuth login
 
-   
-
-//         const user = await User.create({
-//             username,
-//             email,
-//             password
-//         })
-
-//         return user;
-// };
-
-// const loginUser = async({email,password})=>{
-//     const user = await User.findOne({email});
-//     if(!user) throw new Error("Invalid credentials")
-
-//         if(!user.password){
-//             throw new Error("This account uses Google login. Please sign in with Google.")
-//         }
-//         const ismatch = await bcrypt.compare(password,user.password)
-
-//         if(!ismatch) throw new Error("Invalid Credentials")
-
-//     return user;
-// }
-
-// export{
-//     registerUser,
-//     loginUser
-// }
+// It does not deal with HTTP requests or responses. That is the controller's job.
 
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";

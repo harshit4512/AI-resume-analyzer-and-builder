@@ -1,3 +1,19 @@
+// File Purpose
+
+// app.js is responsible for configuring the Express application.
+
+// It does NOT start the server.
+
+// Its responsibilities are:
+
+// Create Express app
+// Register middleware
+// Configure authentication
+// Register routes
+// Export the configured app
+
+// Think of it as the blueprint of your backend.
+
 import express from "express"
 import cors from "cors"
 // import session from "express-session"

@@ -1,3 +1,15 @@
+// Purpose of this file
+
+// This file defines the structure of the User collection in MongoDB.
+
+// Its responsibilities are:
+
+// Define what fields a user has.
+// Apply validation rules.
+// Hash the password before saving.
+// Compare passwords during login.
+// Remove sensitive fields before sending data to the frontend.
+
 import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 
@@ -37,7 +49,7 @@ const userschema = new mongoose.Schema({
     timestamps:true
 });
 
-// save is a or event name in model which tells him to run this before svaing anything 
+// save is a or event name in model which tells him to run this before saving anything 
 userschema.pre("save", async function() {
     // skip if password not modified or is null (Google users)
     if (!this.isModified("password") || !this.password) return;

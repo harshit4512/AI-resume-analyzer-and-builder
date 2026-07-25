@@ -2,7 +2,7 @@
 import { useState } from "react";
 import SectionTabs from "./SectionTabs";
 import ResumePreview from "./Resumepreview";
-import { Bookmark,Pen,Update,Save} from "lucide-react";
+import { Bookmark,Pen} from "lucide-react";
 import { useResumeStore } from "../../store/resumeStore";
 import { createResume, updateResume,downloadResumePDF } from "../../services/resume.service.js";
 

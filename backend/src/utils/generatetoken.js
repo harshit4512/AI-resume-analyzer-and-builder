@@ -1,16 +1,3 @@
-// import jwt from "jsonwebtoken"
-
-
-// const generatetoken =(id)=>{
-//     return jwt.sign({id}, process.env.JWT_SECRET,
-//         {
-//             expiresIn:"7d"
-// });
-// };
-
-
-// export default generatetoken;
-
 import jwt from "jsonwebtoken"
 
 const generateAccessToken = (userId) => {
