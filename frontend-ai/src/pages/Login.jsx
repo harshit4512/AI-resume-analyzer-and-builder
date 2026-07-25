@@ -1,8 +1,8 @@
 // pages/Login.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react"; // ✅ CHANGED — added useEffect
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { loginUser } from "../services/auth.service.js";
+import { loginUser, getMe } from "../services/auth.service.js"; // ✅ CHANGED — added getMe
 import { useAuthStore } from "../store/authStore";
 import { useResumeStore } from "../store/resumeStore";
 
@@ -25,7 +25,29 @@ const Login = () => {
   const [showPassword, setShowPwd] = useState(false);
   const [form, setForm]            = useState({ email: "", password: "" });
   const [loading, setLoading]      = useState(false);
-  
+  const [checkingAuth, setCheckingAuth] = useState(true); // ✅ ADDED
+
+  // ✅ ADDED — on mount, check if user already has a valid session (cookie).
+  // If so, skip the login form entirely and go straight to dashboard.
+ useEffect(() => {
+  const checkExistingAuth = async () => {
+    console.log("checking existing auth...");
+    try {
+      const res = await getMe();
+      console.log("getMe succeeded:", res.data);
+      useAuthStore.setState({
+        user: res.data.user,
+        isAuthenticated: true,
+      });
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      console.log("getMe failed:", err.response?.status, err.message);
+      setCheckingAuth(false);
+    }
+  };
+  checkExistingAuth();
+}, []);
+
   const handleGoogleLogin = () => {
     window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/auth/google`;
   };
@@ -44,6 +66,15 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  // ✅ ADDED — show a spinner while we check auth, instead of flashing the login form
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex overflow-hidden bg-white">
