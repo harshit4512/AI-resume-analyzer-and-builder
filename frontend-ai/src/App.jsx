@@ -14,7 +14,8 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 function App() {
     const [checkingAuth, setCheckingAuth] = useState(true); // ✅ ADDED
-
+      const isAuthenticated = useAuthStore((s) => s.isAuthenticated); // ✅ ADDED — read live auth state for root route
+      
     // ✅ ADDED — runs ONCE, on first app load, no matter which page you land on.
   // Silently asks the backend "am I still logged in?" using the httpOnly cookies.
   // If yes -> auth store is updated so Navbar/ProtectedRoute everywhere knows immediately.
@@ -50,7 +51,13 @@ function App() {
       <Routes>
         <Route path="/landing" element={<Landing />} />
 
-        <Route path="/" element={<Navigate to="/landing" />} />
+        {/* <Route path="/" element={<Navigate to="/landing" />} /> */}
+
+         {/* ✅ CHANGED — go straight to dashboard if already logged in, otherwise landing */}
+        <Route
+          path="/"
+          element={<Navigate to={isAuthenticated ? "/dashboard" : "/landing"} replace />}
+        />
 
         <Route path="/login" element={<Login />} />
 
