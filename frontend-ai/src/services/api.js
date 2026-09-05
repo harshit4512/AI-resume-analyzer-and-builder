@@ -1,39 +1,5 @@
 
 
-// import axios from "axios";
-
-// const API = axios.create({
-//   baseURL: `${import.meta.env.VITE_API_URL}/api`,
-//   withCredentials: true,
-// });
-
-// API.interceptors.response.use(
-//   (res) => res,
-//   async (error) => {
-//     const originalRequest = error.config;
-
-//     // ✅ CHANGED — never try to refresh if the FAILED request was itself the refresh call.
-//     // Prevents infinite loop when the user has no valid session at all.
-//     const isRefreshCall = originalRequest.url?.includes("/auth/refresh");
-
-//     if (error.response?.status === 401 && !originalRequest._retry && !isRefreshCall) {
-//       originalRequest._retry = true;
-
-//       try {
-//         await API.post("/auth/refresh");
-//         return API(originalRequest);
-//       } catch (refreshError) {
-//         // refresh itself failed — genuinely logged out, stop here
-//         return Promise.reject(refreshError);
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
-// export { API };
-
 import axios from "axios";
 import { useAuthStore } from "../store/authStore"; // adjust path to your store
 
@@ -43,30 +9,68 @@ const API = axios.create({
 });
 
 API.interceptors.response.use(
-  (res) => res,
+  (res) => res,   // If request is successful, simply return the response.
+
   async (error) => {
+
+    // Save the request that failed.
+    // Example: GET /resume
     const originalRequest = error.config;
+
+    // Check whether the failed request is the refresh API.
+    // If yes, don't try to refresh again.
     const isRefreshCall = originalRequest.url?.includes("/auth/refresh");
 
-    if (error.response?.status === 401 && !originalRequest._retry && !isRefreshCall) {
+    // Continue only if:
+    // 1. Access token expired (401)
+    // 2. Request hasn't been retried before
+    // 3. This is not the refresh API
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshCall
+    ) {
+
+      // Mark request as retried.
+      // Prevents infinite retry loops.
       originalRequest._retry = true;
 
       try {
+
+        // Ask backend for a new Access Token.
+        // Refresh Token cookie is sent automatically.
         await API.post("/auth/refresh");
+
+        // New Access Token received.
+        // Send the same request again.
         return API(originalRequest);
+
       } catch (refreshError) {
-        // ✅ ADDED — refresh definitively failed, mark the user as logged out
-        useAuthStore.setState({ user: null, isAuthenticated: false });
+
+        // Refresh Token also expired.
+        // User must login again.
+        useAuthStore.setState({
+          user: null,
+          isAuthenticated: false,
+        });
+
+        // Return the error.
         return Promise.reject(refreshError);
       }
     }
 
-    // ✅ ADDED — the refresh call itself failed (no valid refresh token at all)
+    // Refresh API itself failed.
+    // Logout the user.
     if (isRefreshCall) {
-      useAuthStore.setState({ user: null, isAuthenticated: false });
+      useAuthStore.setState({
+        user: null,
+        isAuthenticated: false,
+      });
     }
 
+    // Return any other error.
     return Promise.reject(error);
+
   }
 );
 

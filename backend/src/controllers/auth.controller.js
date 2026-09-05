@@ -1,6 +1,6 @@
 import passport from "../config/passport.js";
 import { registerSchema, loginSchema } from "../validators/auth.validator.js";
-import { setTokenCookies } from "../utils/generatetoken.js";
+import { setTokenCookies,clearTokenCookies } from "../utils/generatetoken.js";
 
 import {
     registerService,
@@ -86,12 +86,31 @@ const login = async (req, res) => {
 };
 
 // LOGOUT
+// const logout = async (req, res) => {
+//     try {
+//         await logoutService(req.user._id);
+
+//         res.clearCookie("accessToken");
+//         res.clearCookie("refreshToken");
+
+//         return res.status(200).json({
+//             success: true,
+//             message: "Logged out successfully",
+//         });
+
+//     } catch (error) {
+//         return res.status(500).json({
+//             success: false,
+//             message: error.message,
+//         });
+//     }
+// };
+
 const logout = async (req, res) => {
     try {
         await logoutService(req.user._id);
 
-        res.clearCookie("accessToken");
-        res.clearCookie("refreshToken");
+        clearTokenCookies(res); // <-- use this instead of raw res.clearCookie calls
 
         return res.status(200).json({
             success: true,

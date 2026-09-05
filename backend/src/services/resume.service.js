@@ -1,3 +1,14 @@
+// Purpose of this file
+
+// This file contains the business logic for managing resumes.
+
+// Its responsibilities are:
+
+// Create a new resume.
+// Get all resumes of a user.
+// Get a specific resume.
+// Update a resume.
+
 import Resume from "../models/resume.model.js"
 
 // create resume 

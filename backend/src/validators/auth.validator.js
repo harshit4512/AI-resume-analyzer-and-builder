@@ -1,3 +1,15 @@
+// Purpose of this file
+
+// This file validates the user's input before it reaches the controller or database.
+
+// Its responsibilities are:
+
+// Validate registration data.
+// Validate login data.
+// Return meaningful error messages if the input is invalid.
+
+// It prevents invalid data from entering your application.
+
 import Joi from "joi"
 
 

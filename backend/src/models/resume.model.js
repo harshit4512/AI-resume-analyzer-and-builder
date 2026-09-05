@@ -1,3 +1,15 @@
+//  Purpose of this file
+
+// This file defines the Resume Schema. It tells MongoDB:
+
+// What data a resume contains.
+// The data type of each field.
+// Which fields are required.
+// Default values.
+// Relationships with other collections.
+
+// Finally, it creates the Resume Model, which is used to perform CRUD operations on resumes.
+
 import mongoose from "mongoose"
 
 const resumeSchema = new mongoose.Schema(
