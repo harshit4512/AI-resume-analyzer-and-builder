@@ -11,7 +11,7 @@ const router = express.Router();
 // Normal auth
 router.post("/register", register);
 router.post("/login", login);
-router.post("/logout", logout);
+router.post("/logout",protect ,logout);
 router.post("/refresh", refreshToken);  
 router.get("/me", protect, getMe);
 
