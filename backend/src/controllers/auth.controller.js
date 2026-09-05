@@ -86,31 +86,13 @@ const login = async (req, res) => {
 };
 
 // LOGOUT
-// const logout = async (req, res) => {
-//     try {
-//         await logoutService(req.user._id);
 
-//         res.clearCookie("accessToken");
-//         res.clearCookie("refreshToken");
-
-//         return res.status(200).json({
-//             success: true,
-//             message: "Logged out successfully",
-//         });
-
-//     } catch (error) {
-//         return res.status(500).json({
-//             success: false,
-//             message: error.message,
-//         });
-//     }
-// };
 
 const logout = async (req, res) => {
     try {
         await logoutService(req.user._id);
 
-        clearTokenCookies(res); // <-- use this instead of raw res.clearCookie calls
+        clearTokenCookies(res);
 
         return res.status(200).json({
             success: true,
@@ -118,6 +100,7 @@ const logout = async (req, res) => {
         });
 
     } catch (error) {
+        console.log("LOGOUT ERROR:", error);   // 👈 ADDED THIS LINE
         return res.status(500).json({
             success: false,
             message: error.message,
